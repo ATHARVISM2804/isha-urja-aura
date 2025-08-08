@@ -19,8 +19,8 @@ export function ProductCard({ id, name, price, image, onView }: Props) {
           <img src={image} alt={`${name} product image`} loading="lazy" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
         </div>
         <div className="p-4">
-          <h3 className="font-medium">{name}</h3>
-          <p className="text-sm text-muted-foreground">₹{price.toFixed(2)}</p>
+          <h3 className="font-medium text-lg">{name}</h3>
+          <p className="text-base text-muted-foreground">₹{price.toFixed(2)}</p>
           <div className="mt-3 flex gap-2">
             <Button variant="outline" onClick={onView}>View</Button>
             <Button variant="hero" onClick={() => addItem({ id, name, price, image })}>Add to Cart</Button>
