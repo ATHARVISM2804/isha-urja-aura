@@ -12,12 +12,12 @@ import Gifting from "./pages/Gifting";
 import CustomOrder from "./pages/CustomOrder";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
+import Auth from "./pages/Auth";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CartSheet } from "@/components/cart/CartSheet";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { ChatWidget } from "@/components/chat/ChatWidget";
-
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -38,6 +38,7 @@ const App = () => (
             <Route path="/custom-order" element={<CustomOrder />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/auth" element={<Auth />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

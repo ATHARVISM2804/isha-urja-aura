@@ -3,9 +3,9 @@ import { ShoppingCart, User, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/cart/CartProvider";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+
 import { useState } from "react";
-import { toast } from "@/hooks/use-toast";
+
 
 const navItems = [
   { label: "Home", to: "/" },
@@ -25,10 +25,6 @@ export function SiteHeader() {
   const onSearch = (e: React.FormEvent) => {
     e.preventDefault();
     navigate(`/shop?q=${encodeURIComponent(query)}`);
-  };
-
-  const handleGoogle = async () => {
-    toast({ title: "Google Sign-In", description: "Google login coming soon." });
   };
 
   return (
@@ -66,23 +62,12 @@ export function SiteHeader() {
         </form>
 
         <div className="ml-auto md:ml-4 flex items-center gap-2">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="ghost" className="gap-2">
-                <User className="h-4 w-4" />
-                <span className="hidden sm:inline">Login / Sign Up</span>
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle className="font-brandSerif text-xl">Welcome to Isha Urja</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-3">
-                <Button variant="outline" onClick={handleGoogle}>Continue with Google</Button>
-                <p className="text-sm text-muted-foreground">More sign-in options coming soon.</p>
-              </div>
-            </DialogContent>
-          </Dialog>
+          <Link to="/auth">
+            <Button variant="ghost" className="gap-2">
+              <User className="h-4 w-4" />
+              <span className="hidden sm:inline">Login / Sign Up</span>
+            </Button>
+          </Link>
 
           <Button variant="outline" size="icon" aria-label="Open cart" onClick={openCart}>
             <ShoppingCart className="h-5 w-5" />
