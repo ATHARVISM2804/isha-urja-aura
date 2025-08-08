@@ -9,25 +9,42 @@ export function HeroCarousel() {
   const [api, setApi] = useState<any>();
   const [currentSlide, setCurrentSlide] = useState(0);
   
-  const slides = [
+  const originalSlides = [
     { image: hero1, title: "Ancient Rituals, Modern Luxury", subtitle: "Premium Ayurvedic skincare & wellness", cta: "Shop Now" },
     { image: hero2, title: "Gifts of Wellness", subtitle: "Thoughtful combos for every occasion", cta: "Explore Gifting" },
     { image: hero3, title: "Crafted by Nature", subtitle: "Handmade soaps, oils & candles", cta: "Discover Collection" },
   ];
 
+  // Create infinite scroll by duplicating slides
+  const slides = [...originalSlides, ...originalSlides, ...originalSlides];
+
   // Auto-play functionality
   useEffect(() => {
     if (!api) return;
 
-    // Track current slide
+    // Track current slide (map to original 3 slides)
     const onSelect = () => {
-      setCurrentSlide(api.selectedScrollSnap());
+      const selected = api.selectedScrollSnap();
+      setCurrentSlide(selected % originalSlides.length);
+      
+      // If we're at the last set of slides, smoothly jump to the first set
+      if (selected >= slides.length - originalSlides.length) {
+        setTimeout(() => {
+          api.scrollTo(originalSlides.length, false); // Jump without animation
+        }, 100);
+      }
+      // If we're at the first set of slides, smoothly jump to the middle set
+      else if (selected < originalSlides.length) {
+        setTimeout(() => {
+          api.scrollTo(selected + originalSlides.length, false); // Jump without animation
+        }, 100);
+      }
     };
 
     api.on("select", onSelect);
     onSelect(); // Initial call
 
-    // Auto-play interval
+    // Auto-play interval with smooth one-direction loop
     const autoplay = setInterval(() => {
       api.scrollNext();
     }, 8000); // Change slide every 8 seconds (slower)
@@ -45,10 +62,13 @@ export function HeroCarousel() {
         setApi={setApi}
         opts={{
           align: "start",
-          loop: true,
+          loop: false, // Disable built-in loop since we're using duplicated slides
+          skipSnaps: false,
           duration: 30, // Slower, smoother transition (default is 25)
           dragFree: false,
-          containScroll: "trimSnaps",
+          containScroll: false, // Allow true infinite scroll
+          startIndex: originalSlides.length, // Start from middle set (second copy)
+          direction: "ltr", // Enforce left-to-right direction
         }}
       >
         <CarouselContent className="transition-transform ease-in-out">
@@ -76,12 +96,12 @@ export function HeroCarousel() {
         <CarouselPrevious className="left-4" />
         <CarouselNext className="right-4" />
         
-        {/* Slide indicators */}
+        {/* Slide indicators - only show 3 dots for original slides */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-          {slides.map((_, i) => (
+          {originalSlides.map((_, i) => (
             <button
               key={i}
-              onClick={() => api?.scrollTo(i)}
+              onClick={() => api?.scrollTo(i + originalSlides.length)} // Scroll to middle set
               className={`h-2 w-8 rounded-full transition-all duration-500 ease-in-out ${
                 i === currentSlide ? 'bg-white scale-110' : 'bg-white/30 hover:bg-white/50 hover:scale-105'
               }`}
