@@ -303,7 +303,7 @@ export function SiteHeader() {
           className="flex-1 md:flex-none transition-all duration-300"
         >
           <img 
-            src="https://res.cloudinary.com/dinhcaf2c/image/upload/v1754750548/asgtehj_gu63sc.jpg"
+            src="https://res.cloudinary.com/dmhabztbf/image/upload/v1759393893/WhatsApp_Image_2025-09-28_at_13.19.14_ecceff98_ac2gtn.jpg"
             alt="Isha"
             className="h-12 sm:h-14 w-auto object-contain"
           />
